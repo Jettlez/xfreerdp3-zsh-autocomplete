@@ -1,0 +1,581 @@
+#compdef xfreerdp3
+
+_xfreerdp3() {
+  local curcontext="$curcontext" e
+  local -a toggles hybrid optional valued specs tspecs
+
+  toggles=(
+    'admin:Admin (or console) session'
+    'aero:Enable desktop composition'
+    'async-channels:Enable asynchronous channels (experimental)'
+    'async-update:Enable asynchronous update'
+    'auth-only:Authenticate only'
+    'authentication:Authentication (-authentication disables, experimental)'
+    'auto-reconnect:Automatic reconnection'
+    'auto-request-control:Automatically request remote assistance input control'
+    'buildconfig:Print the build configuration'
+    'compression:Compression (-compression disables)'
+    'credentials-delegation:Credentials delegation'
+    'decorations:Window decorations (-decorations disables)'
+    'disable-output:Deactivate all graphics decoding (load tests)'
+    'disp:Display control'
+    'drives:Redirect all mount points as shares'
+    'dynamic-resolution:Send resolution updates when the window is resized'
+    'echo:Echo channel'
+    'encryption:Encryption (-encryption disables, experimental)'
+    'f:Fullscreen mode (Ctrl+Alt+Enter toggles)'
+    'fipsmode:Enable FIPS mode'
+    'fonts:Smooth fonts / ClearType (-fonts disables)'
+    'force-console-callbacks:Use console callbacks for certificate/credential prompts'
+    'geometry:Geometry tracking channel'
+    'gestures:Consume multitouch input locally'
+    'grab-keyboard:Grab keyboard focus (-grab-keyboard disables)'
+    'grab-mouse:Grab mouse focus (-grab-mouse disables)'
+    'heartbeat:Support heartbeat PDUs (-heartbeat disables)'
+    'help:Print help'
+    'home-drive:Redirect user home as share'
+    'jpeg:JPEG codec support'
+    'menu-anims:Enable menu animations'
+    'mouse-motion:Send mouse motion events (-mouse-motion disables)'
+    'mouse-relative:Send mouse motion with relative addressing'
+    'multitouch:Redirect multitouch input'
+    'multitransport:Support multitransport protocol (-multitransport disables)'
+    'nego:Protocol security negotiation (-nego disables)'
+    'nsc:NSCodec support'
+    'old-license:Use the old license workflow (no CAL, hwId 0)'
+    'print-reconnect-cookie:Print base64 reconnect cookie after connecting'
+    'relax-order-checks:Do not check announced RDP orders (buggy servers only)'
+    'restricted-admin:Restricted admin mode'
+    'rfx:RemoteFX'
+    'span:Span screen over multiple monitors'
+    'ssh-agent:SSH agent forwarding channel'
+    'suppress-output:Suppress output when minimized (-suppress-output disables)'
+    'themes:Themes (-themes disables)'
+    'toggle-fullscreen:Ctrl+Alt+Enter fullscreen toggle (-toggle-fullscreen disables)'
+    'unmap-buttons:Let server see real physical pointer button'
+    'version:Print version'
+    'video:Video optimized remoting channel'
+    'wallpaper:Wallpaper (-wallpaper disables)'
+    'window-drag:Enable full window drag'
+    'workarea:Use available work area'
+  )
+
+  hybrid=(
+    'clipboard:Redirect clipboard (-clipboard disables)'
+    'multimon:Use multiple monitors'
+    'smart-sizing:Scale remote desktop to window size'
+  )
+
+
+  optional=(
+    'cache:Cache options (bitmap, codec, glyph, offscreen, persist)'
+    'floatbar:Floatbar (disabled by default)'
+    'from-stdin:Read credentials from stdin'
+    'gfx:RDP8 graphics pipeline'
+    'ipv4:Prefer IPv4 A record over IPv6 AAAA record'
+    'ipv6:Prefer IPv6 AAAA record over IPv4 A record'
+    'microphone:Audio input (microphone)'
+    'p:Password (no argument silences interactive prompts)'
+    'parallel:Redirect parallel device'
+    'prevent-session-lock:Prevent session locking while idle (default 180 s)'
+    'printer:Redirect printer device'
+    'serial:Redirect serial device'
+    'smartcard:Redirect smartcard devices'
+    'smartcard-logon:Smartcard logon authentication'
+    'sound:Audio output (sound)'
+    'vmconnect:Hyper-V console (port 2179, negotiation disabled)'
+  )
+
+
+  valued=(
+    'a:Addin'
+    'action-script:Action script'
+    'app:Remote application program'
+    'args-from:Read command line from file, stdin, fd or env'
+    'assistance:Remote assistance password'
+    'audio-mode:Audio output mode'
+    'auth-pkg-list:Authentication package filter'
+    'auto-reconnect-max-retries:Maximum automatic reconnection retries (0-1000)'
+    'azure:AzureAD options'
+    'bpp:Session color depth'
+    'cert:Certificate accept options (use with care)'
+    'client-build-number:Client build number sent to server'
+    'client-hostname:Client hostname to send to server'
+    'compression-level:Compression level (0, 1, 2)'
+    'd:Domain'
+    'drive:Redirect directory as named share'
+    'dump:Record or replay dump'
+    'dvc:Dynamic virtual channel'
+    'encryption-methods:RDP standard security encryption methods'
+    'endpointfedauth:Endpoint FedAuth token (Hyper-V console connect)'
+    'frame-ack:Number of frame acknowledgements'
+    'gateway:Gateway options'
+    'gdi:GDI rendering (sw or hw)'
+    'h:Height'
+    'jpeg-quality:JPEG quality percentage'
+    'kbd:Keyboard options'
+    'kerberos:Kerberos options'
+    'list:List available options for a subcommand'
+    'load-balance-info:Load balance info'
+    'log-filters:Logger filters (tag:level,...)'
+    'log-level:Default log level'
+    'max-fast-path-size:Maximum fast-path update size'
+    'max-loop-time:Maximum time (ms) spent treating packets'
+    'monitors:Select monitors to use (experimental)'
+    'mouse:Mouse options (relative, grab)'
+    'network:Network connection type'
+    'orientation:Orientation of display in degrees'
+    'parent-window:Parent window id'
+    'pcb:Preconnection blob'
+    'pcid:Preconnection id'
+    'pheight:Physical height of display (mm)'
+    'play-rfx:Replay rfx pcap file'
+    'port:Server port'
+    'proxy:Proxy settings'
+    'pth:Pass the hash (restricted admin mode)'
+    'pwidth:Physical width of display (mm)'
+    'rdp2tcp:TCP redirection'
+    'reconnect-cookie:Pass base64 reconnect cookie'
+    'redirect-prefer:Override the preferred redirection order'
+    'rfx-mode:RemoteFX mode (image or video)'
+    'scale:Scaling factor of the display'
+    'scale-desktop:Scaling factor for desktop applications (100-500)'
+    'scale-device:Scaling factor for app store applications'
+    'sec:Force specific protocol security'
+    'server-name:Server name used for validation (TLS, Kerberos)'
+    'shell:Alternate shell'
+    'shell-dir:Shell working directory'
+    'size:Screen size (WxH or percent)'
+    'spn-class:SPN authentication service class'
+    'sspi-module:SSPI shared library module path'
+    't:Window title'
+    'timeout:Connection timeout in ms (high latency links)'
+    'timezone:Windows timezone to use for the connection'
+    'tls:TLS configuration options'
+    'tune:Directly manipulate freerdp settings (experimental)'
+    'u:Username'
+    'usb:Redirect USB device'
+    'v:Server hostname, URL, IPv4, IPv6, vsock or pipe'
+    'vc:Static virtual channel'
+    'w:Width'
+    'window-position:Window position (XxY)'
+    'winscard-module:WinSCard shared library module path'
+    'wm-class:WM_CLASS hint for the window instance'
+  )
+
+  # idk whether to hate xfreerdp3 for using / prefix or _arguments for not accepting / prefix 
+  if [[ $PREFIX == /* ]]; then
+    compset -P '/' || return 1
+    for e in $toggles; do
+      specs+=( "${e%%:*}[${e#*:}]" )
+    done
+    for e in $hybrid $optional; do
+      specs+=( "${e%%:*}[${e#*:}]::${e%%:*}:{_xfreerdp3_value ${e%%:*}}" )
+    done
+    for e in $valued; do
+      specs+=( "${e%%:*}[${e#*:}]:${e%%:*}:{_xfreerdp3_value ${e%%:*}}" )
+    done
+    _values -S : 'option' $specs
+    return
+  fi
+
+  for e in $toggles $hybrid; do
+    tspecs+=( "-+${e%%:*}[${e#*:}]" )
+  done
+
+  _arguments \
+    $tspecs \
+    '1::connection file:_files -g "*.(rdp|RDP)"'
+}
+
+
+_xfreerdp3_value() {
+  local name=$1 ret=1
+  local -a vals
+  local -A msgs
+
+  msgs=(
+    a                          'addin[,options]'
+    assistance                 'remote assistance password'
+    auto-reconnect-max-retries 'retries [0-1000], 0 for unlimited'
+    bpp                        'color depth'
+    client-build-number        'build number'
+    client-hostname            'client hostname'
+    d                          'domain'
+    dvc                        'channel[,options]'
+    endpointfedauth            'FedAuth token'
+    frame-ack                  'number of frame acknowledgements'
+    h                          'height'
+    jpeg-quality               'JPEG quality percentage'
+    load-balance-info          'load balance info string'
+    log-filters                'tag:level[,tag:level...]'
+    max-fast-path-size         'maximum fast-path update size'
+    max-loop-time              'time in milliseconds'
+    monitors                   'monitor id[,id...] (see /list:monitor)'
+    p                          'password'
+    parent-window              'window id'
+    pcb                        'preconnection blob'
+    pcid                       'preconnection id'
+    pheight                    'physical height in millimeters'
+    port                       'server port'
+    pth                        'password hash'
+    pwidth                     'physical width in millimeters'
+    reconnect-cookie           'base64 reconnect cookie'
+    redirect-prefer            'FQDN|IP|NETBIOS[,...]'
+    scale-desktop              'scaling percentage [100-500]'
+    server-name                'server name for TLS/Kerberos validation'
+    shell                      'alternate shell'
+    smartcard                  'substring[,substring...] of smartcard device names'
+    spn-class                  'SPN service class'
+    t                          'window title'
+    timeout                    'timeout in milliseconds'
+    timezone                   'Windows timezone name (see /list:timezones)'
+    tune                       'setting:value[,setting:value...]'
+    vc                         'channel[,options]'
+    vmconnect                  'Hyper-V VM id'
+    w                          'width'
+    window-position            '<xpos>x<ypos>'
+    wm-class                   'WM_CLASS hint'
+    prevent-session-lock       'interval in seconds [180]'
+  )
+
+  case $name in
+    (v)
+      _hosts && ret=0
+      ;;
+    (u)
+      _users && ret=0
+      ;;
+    (action-script|sspi-module|winscard-module|rdp2tcp)
+      _files && ret=0
+      ;;
+    (play-rfx)
+      _files -g '*.pcap' && ret=0
+      ;;
+    (shell-dir)
+      _files -/ && ret=0
+      ;;
+
+    (audio-mode)
+      vals=(
+        'none:no audio output'
+        'server:play audio on the server'
+        'redirect:redirect audio to the client'
+        '0:redirect (same as redirect)'
+        '1:server (same as server)'
+        '2:none (same as none)'
+      )
+      _describe -t modes 'audio output mode' vals && ret=0
+      ;;
+    (compression-level)
+      compadd -- 0 1 2 && ret=0
+      ;;
+    (gdi)
+      _describe -t modes 'GDI rendering' '(sw:software hw:hardware)' && ret=0
+      ;;
+    (log-level)
+      compadd -- OFF FATAL ERROR WARN INFO DEBUG TRACE && ret=0
+      ;;
+    (network)
+      compadd -- invalid modem broadband broadband-low broadband-high wan lan auto && ret=0
+      ;;
+    (orientation)
+      compadd -- 0 90 180 270 && ret=0
+      ;;
+    (rfx-mode)
+      compadd -- image video && ret=0
+      ;;
+    (scale|scale-device)
+      compadd -- 100 140 180 && ret=0
+      ;;
+    (bpp)
+      compadd -- 8 15 16 24 32 && ret=0
+      ;;
+    (multimon|smart-sizing)
+      compadd -- on off force && ret=0
+      ;;
+    (ipv4|ipv6|from-stdin)
+      compadd -- force && ret=0
+      ;;
+    (size)
+      compadd -- 1920x1080 1680x1050 1600x900 1440x900 1366x768 1280x1024 \
+                1280x720 1024x768 800x600 50% 75% 90% 100% && ret=0
+      _message '<width>x<height> or <percent>%[wh]'
+      ;;
+    (list)
+      vals=(
+        'kbd:list keyboard layouts'
+        'kbd-scancode:list keyboard scancodes (for /kbd:remap)'
+        'kbd-lang:list keyboard languages (kbd-lang:<value>)'
+        'smartcard:list smartcards (smartcard:pkinit-anchors:<path>,pkcs11-module:<name>)'
+        'monitor:list monitors'
+        'tune:list /tune settings'
+        'timezones:list Windows timezones'
+      )
+      _describe -t subcommands 'subcommand' vals && ret=0
+      ;;
+    (encryption-methods)
+      compset -P '*,'
+      compadd -qS , -- 40 56 128 FIPS && ret=0
+      ;;
+    (auth-pkg-list)
+      compset -P '*,'
+      compadd -qS , -- none ntlm kerberos u2u '!ntlm' '!kerberos' '!u2u' && ret=0
+      ;;
+    (proxy)
+      if [[ $PREFIX != *://* ]]; then
+        compadd -S '' -- http:// socks5:// && ret=0
+      fi
+      _message '[<proto>://][<user>:<password>@]<host>[:<port>]'
+      ;;
+
+    (app)
+      _values -s , -S : 'remote application option' \
+        'program[program path or ||alias]:program:_files' \
+        'cmd[command line]:command: ' \
+        'file[file to open]:file:_files' \
+        'guid[application guid]:guid: ' \
+        'icon[icon file]:icon file:_files' \
+        'name[application name]:name: ' \
+        'workdir[working directory]:directory:_files -/' \
+        'hidef[hide on start]:state:(on off)' && ret=0
+      ;;
+    (args-from)
+      _values -S : 'command line source' \
+        'file[read from file]:file:_files' \
+        'stdin[read from stdin]' \
+        'fd[read from file descriptor]:descriptor: ' \
+        'env[read from environment variable]:variable:_parameters' && ret=0
+      ;;
+    (azure)
+      _values -s , -S : 'AzureAD option' \
+        'tenantid[tenant id]:tenant id: ' \
+        'use-tenantid[use the tenant id]::state:(on off)' \
+        'ad[Active Directory url]:url: ' \
+        'avd-access[AVD access format string]:format: ' \
+        'avd-token[AVD token format string]:format: ' \
+        'avd-scope[AVD scope format string]:format: ' \
+        'auth-helper[authentication helper]:path:(autodetect)' && ret=0
+      ;;
+    (cache)
+      _values -s , -S : 'cache option' \
+        'bitmap[bitmap cache]::state:(on off)' \
+        'codec[codec cache]::codec:(rfx nsc)' \
+        'glyph[glyph cache]::state:(on off)' \
+        'offscreen[offscreen cache]::state:(on off)' \
+        'persist[persistent bitmap cache]' \
+        'persist-file[persistent cache file]:file:_files' && ret=0
+      ;;
+    (cert)
+      _values -s , -S : 'certificate option' \
+        'deny[abort connection if certificate does not match]' \
+        'ignore[ignore all certificate checks]' \
+        'name[alternate name to match stored certificates]:name: ' \
+        'tofu[trust on first use]' \
+        '*fingerprint[accept certificate hash]:hash algorithm:(md5 sha1 sha256 sha384 sha512)' && ret=0
+      ;;
+    (clipboard)
+      _values -s , -S : 'clipboard option' \
+        'use-selection[X11 selection to access]:atom:(CLIPBOARD PRIMARY SECONDARY)' \
+        'direction-to[enabled clipboard direction]:direction:(all local remote off)' \
+        'files-to[enabled file clipboard direction]::direction:(all local remote off)' && ret=0
+      ;;
+    (dump)
+      _values -s , -S : 'dump option' \
+        'record[record a dump]' \
+        'replay[replay a dump]' \
+        'file[dump file]:file:_files' \
+        'nodelay[replay without delays]' && ret=0
+      ;;
+    (floatbar)
+      _values -s , -S : 'floatbar option' \
+        'sticky[sticky floatbar]:state:(on off)' \
+        'default[initial visibility]:visibility:(visible hidden)' \
+        'show[when to show the floatbar]:mode:(always fullscreen window)' && ret=0
+      ;;
+    (gateway)
+      _values -s , -S : 'gateway option' \
+        'g[gateway host[:port]]:gateway:_hosts' \
+        'u[gateway user]:user:_users' \
+        'd[gateway domain]:domain: ' \
+        'p[gateway password]:password: ' \
+        'usage-method[usage method]:method:(direct detect)' \
+        'access-token[access token]:token: ' \
+        'type[gateway type]:type:(rpc http auto arm)' \
+        'no-websockets[disable websockets (after http or auto)]' \
+        'extauth-sspi-ntlm[external SSPI NTLM auth (after http or auto)]' \
+        'url[gateway url]:url: ' \
+        'bearer[OAuth2 bearer token]:token: ' \
+        'timeout[timeout, 1-600000 ms]:milliseconds: ' && ret=0
+      ;;
+    (gfx)
+      _values -s , -S : 'graphics pipeline option' \
+        'progressive[progressive codec]::state:(on off)' \
+        'RFX[RemoteFX codec]::state:(on off)' \
+        'AVC420[H.264 AVC420]::state:(on off)' \
+        'AVC444[H.264 AVC444]::state:(on off)' \
+        'mask[capability mask]:value: ' \
+        'small-cache[small cache]::state:(on off)' \
+        'thin-client[thin client]::state:(on off)' \
+        'frame-ack[frame acknowledgement]::state:(on off)' && ret=0
+      ;;
+    (kbd)
+      _values -s , -S : 'keyboard option' \
+        'layout[keyboard layout announced to server]:layout:_xfreerdp3_kbd_layouts' \
+        'lang[keyboard language identifier]:language id (0x...): ' \
+        'fn-key[function key value]:value: ' \
+        'type[keyboard type]:value: ' \
+        'subtype[keyboard subtype]:value: ' \
+        'unicode[unicode input]::state:(on off)' \
+        '*remap[remap an RDP scancode, e.g. 0x1e=0x1f]:scancode mapping: ' \
+        'pipe[named pipe for typing text into the session]:pipe:_files' && ret=0
+      ;;
+    (kerberos)
+      _values -s , -S : 'Kerberos option' \
+        'kdc-url[KDC url]:url: ' \
+        'lifetime[ticket lifetime]:time: ' \
+        'start-time[ticket start time]:time: ' \
+        'renewable-lifetime[renewable lifetime]:time: ' \
+        'cache[credential cache]:path:_files' \
+        'armor[armor cache]:path:_files' \
+        'pkinit-anchors[PKINIT anchors]:path:_files' \
+        'pkcs11-module[PKCS11 module]:name: ' && ret=0
+      ;;
+    (microphone)
+      _values -s , -S : 'microphone option' \
+        'sys[audio subsystem]:subsystem:(alsa oss pulse fake)' \
+        'dev[device]:device: ' \
+        'format[audio format]:format: ' \
+        'rate[sample rate]:rate: ' \
+        'channel[channel count]:channels: ' && ret=0
+      ;;
+    (sound)
+      _values -s , -S : 'sound option' \
+        'sys[audio subsystem]:subsystem:(alsa oss pulse fake)' \
+        'dev[device]:device: ' \
+        'format[audio format]:format: ' \
+        'rate[sample rate]:rate: ' \
+        'channel[channel count]:channels: ' \
+        'latency[latency]:latency: ' \
+        'quality[quality]:quality:(dynamic medium high)' && ret=0
+      ;;
+    (mouse)
+      _values -s , -S : 'mouse option' \
+        'relative[send relative mouse movements]:state:(on off)' \
+        'grab[grab the mouse if within the window]:state:(on off)' && ret=0
+      ;;
+    (sec)
+      _values -s , -S : 'security protocol' \
+        'rdp[standard RDP security]::state:(on off)' \
+        'tls[TLS security]::state:(on off)' \
+        'nla[network level authentication]::state:(on off)' \
+        'ext[extended NLA security]::state:(on off)' \
+        'aad[Azure AD security]::state:(on off)' && ret=0
+      ;;
+    (smartcard-logon)
+      _values -s , -S : 'smartcard logon option' \
+        'cert[certificate file or base64 PEM]:certificate:_files' \
+        'key[key file or base64 PEM]:key:_files' \
+        'pin[PIN]:pin: ' \
+        'csp[CSP name]:csp: ' \
+        'reader[reader name]:reader: ' \
+        'card[card name]:card: ' && ret=0
+      ;;
+    (tls)
+      _values -s , -S : 'TLS option' \
+        'ciphers[cipher list]:ciphers:(netmon ma)' \
+        'seclevel[OpenSSL security level, default 1]:level:(0 1 2 3 4 5)' \
+        'secrets-file[TLS secrets file]:file:_files' \
+        'enforce[force a TLS version, default 1.2]::version:(ssl3 1.0 1.1 1.2 1.3)' && ret=0
+      ;;
+    (usb)
+      _values -s , -S : 'USB option' \
+        'dbg[debug output]' \
+        'id[vendor and product id, vid/pid#...]:id: ' \
+        'addr[bus and address, bus/addr#...]:address: ' \
+        'auto[redirect devices automatically]' \
+        'filter[device class filter, class#... or none]:filter:(none)' && ret=0
+      ;;
+
+    (drive|serial|parallel|printer)
+      _xfreerdp3_devargs $name && ret=0
+      ;;
+
+    (*)
+      if (( $+msgs[$name] )); then
+        _message -r "$msgs[$name]"
+      fi
+      ;;
+  esac
+
+  return $ret
+}
+
+
+_xfreerdp3_devargs() {
+  local name=$1 ret=1
+  local -a parts
+  parts=( "${(@s:,:)PREFIX}" )
+  local n=${#parts}
+  compset -P '*,'
+
+  case $name:$n in
+    (drive:1)
+      local -a special
+      special=( 'hotplug:drives that are plugged in later (use hotplug,*)' )
+      _describe -t special 'share name (or hotplug)' special -S , && ret=0
+      _message 'share name'
+      ;;
+    (drive:2)
+      if [[ $parts[1] == hotplug ]]; then
+        compadd -- '*' && ret=0
+      else
+        _files -/ && ret=0
+      fi
+      ;;
+    (serial:1|parallel:1|printer:1)
+      _message 'device name'
+      ;;
+    (serial:2|parallel:2)
+      _files && ret=0
+      ;;
+    (serial:3)
+      _message 'driver'
+      ;;
+    (serial:4)
+      compadd -- permissive && ret=0
+      ;;
+    (printer:2)
+      _message 'driver'
+      ;;
+    (printer:3)
+      compadd -- default && ret=0
+      ;;
+  esac
+
+  return $ret
+}
+
+
+_xfreerdp3_kbd_layouts() {
+  local line
+  local -a layouts
+
+  if (( ! ${+_xfreerdp3_kbd_cache} )); then
+    typeset -ga _xfreerdp3_kbd_cache
+    for line in "${(@f)$(_call_program layouts $words[1] /list:kbd 2>/dev/null)}"; do
+      if [[ $line == (#b)[[:space:]]#(0x[[:xdigit:]]##)[[:space:]]##(*) ]]; then
+        _xfreerdp3_kbd_cache+=( "${match[1]}:${match[2]}" )
+      fi
+    done
+  fi
+  layouts=( $_xfreerdp3_kbd_cache )
+
+  if (( $#layouts )); then
+    _describe -t layouts 'keyboard layout' layouts
+  else
+    _message 'keyboard layout (0x<id> or <name>), see /list:kbd'
+  fi
+}
+
+_xfreerdp3 "$@"
